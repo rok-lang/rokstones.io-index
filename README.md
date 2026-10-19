@@ -19,12 +19,12 @@ config.rokon          registry configuration
 ## `config.rokon`
 
 ```rokon
-Registry {
-    name: "rokstones.io",        // registry name
-    dl: "git",                   // source policy: fetch from each version's `source` (git commit)
-    api: "https://rokstones.io", // web / API
+Config {
+    api: "https://rokstones.io", // the registry server: publish / yank API, accounts
 }
 ```
+
+`rok` reads `api` from here to find the server it publishes through. Sources are never uploaded: each version's `source` is a git commit, fetched from the stone's own repository and checked against `cksum`.
 
 ## Stone files
 
@@ -57,15 +57,27 @@ Stones depend only on stones. A package with `Dep::path` / `Dep::git` dependenci
 
 ## Publish / yank
 
-There is no server; publishing means adding a commit to this repository.
+Publishing goes through the server named by `api` in `config.rokon`, with a rokstones.io publish token (not a GitHub token). Log in with GitHub at <https://rokstones.io/me> to create one. For now only the registry's admins can get publish tokens; everyone else sends the line as a pull request (below).
 
 ```
-rok publish                                          # print the entry line (dry run)
-rok publish --index <checkout of this repo> --commit # append the line to the file and commit
-rok yank --vers 0.3.1 --index <checkout> [name]      # set yanked: true and commit (--undo: revert)
+rok login                         # save a publish token (read from stdin)
+rok publish                       # print the entry line (dry run)
+rok publish --commit              # send it to the server, which commits and pushes it here
+rok yank --vers 0.3.1 [name]      # set yanked: true (--undo: revert)
+rok logout                        # forget the token
 ```
 
-`rok publish` builds the entry from the current package's `rok.rokon` (`name`, `version`, `deps`), the URL of git remote `origin`, and the `HEAD` commit and its tree hash. The work tree must be clean, the package must be the repository root, and an existing version is an error. Pushing the commit to `origin` is up to the publisher. Send the resulting index commit to this repository as a pull request.
+`rok publish` builds the entry from the current package's `rok.rokon` (`name`, `version`, `deps`), the URL of git remote `origin`, and the `HEAD` commit and its tree hash. The work tree must be clean, the package must be the repository root, and an existing version is an error. The server checks the entry the same way, appends it to the stone's file and commits `Publish <name> <vers>` (`Yank ..` / `Unyank ..` for yanks). The first account to publish a name owns it.
+
+API (ROKON bodies, `Authorization: Bearer rks_..`, errors `Error { message: ".." }`):
+
+| Route | Body |
+|-------|------|
+| `GET /api/v1/me` | (none) → `Me { login: "..", publish: true }` |
+| `POST /api/v1/publish` | the entry line (`Stone { .. }` or `Native { .. }`) |
+| `POST /api/v1/yank` | `Yank { name: "..", vers: "..", undo: false, native: false }` |
+
+Without a token, add the line yourself and send a pull request: `rok publish --index <checkout> --commit` commits to a local checkout of a fork and pushes nothing.
 
 ## Usage
 
