@@ -24,7 +24,7 @@ Config {
 }
 ```
 
-`rok` reads `api` from here to find the server it publishes through. Sources are never uploaded: each version's `source` is a git commit, fetched from the stone's own repository and checked against `cksum`.
+`rok` reads `api` from here to find the server it publishes through. It must be `https://` (only `http://127.0.0.1` and `http://localhost` are exempt). Sources are never uploaded: each version's `source` is a git commit, fetched from the stone's own repository and checked against `cksum`.
 
 ## Stone files
 
@@ -74,8 +74,8 @@ API (ROKON bodies, `Authorization: Bearer rks_..`, errors `Error { message: ".."
 | Route | Body |
 |-------|------|
 | `GET /api/v1/me` | (none) → `Me { login: "..", publish: true }` |
-| `POST /api/v1/publish` | the entry line (`Stone { .. }` or `Native { .. }`) |
-| `POST /api/v1/yank` | `Yank { name: "..", vers: "..", undo: false, native: false }` |
+| `POST /api/v1/publish` | the entry line (`Stone { .. }` or `Native { .. }`) → `Published { name, vers, file }` |
+| `POST /api/v1/yank` | `Yank { name: "..", vers: "..", undo: false, native: false }` → `Yanked { name, vers, yanked }` |
 
 Without a token, add the line yourself and send a pull request: `rok publish --index <checkout> --commit` commits to a local checkout of a fork and pushes nothing.
 
