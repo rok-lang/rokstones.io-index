@@ -1,0 +1,1 @@
+Stone { name: "rok-syntax", vers: "0.1.0", deps: [], source: Dep::git("https://github.com/rok-lang/rok-syntax.git", rev: "b78fec0bf593b3e7a2f6e41eb1d52848df7b6650"), cksum: "15903c5b8da7a2c460ef40e9e6e10cb364b1092e", yanked: false, description: "Tokenizer and HTML highlighter for rok and ROKON", license: "MIT OR Apache-2.0", repository: "https://github.com/rok-lang/rok-syntax" }
