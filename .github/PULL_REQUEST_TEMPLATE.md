@@ -1,12 +1,12 @@
-<!-- Thanks for contributing to rok. -->
+<!-- Most index changes are written by `rok publish` and merged by a maintainer. -->
 
 ## Summary
 
-<!-- What does this change, and why? Link any related issue. -->
+<!-- Which stone and version does this add or correct? Link any related issue. -->
 
 ## Checklist
 
-- [ ] Formatting and lints pass (see CONTRIBUTING.md)
-- [ ] Tests pass
-- [ ] Behavior changes are reflected in the docs (and the spec, where there is one)
-- [ ] New behavior has a test
+- [ ] One line per version, in publish order (oldest first)
+- [ ] Each line is a single-line canonical ROKON `Stone { .. }` value
+- [ ] The stone name and file path follow the layout in the README
+- [ ] `source` points at a real commit and `cksum` matches its tree hash

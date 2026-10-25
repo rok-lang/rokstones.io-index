@@ -1,18 +1,15 @@
 ---
-name: Bug report
-about: Something does not work as expected
+name: Report a problem
+about: A malformed or incorrect index entry
 labels: bug
 ---
 
-## What happened
+## Stone and version
 
-## What you expected
+<!-- The stone name and the version line in question. -->
 
-## Steps to reproduce
+## What is wrong
 
-<!-- A minimal example: source, the command you ran, and the output. -->
+<!-- For example: a malformed `Stone { .. }` line, a wrong `source` or `cksum`, a bad dependency, or a name that should not have been published. -->
 
-## Environment
-
-- Version (`rok version` / `rokc version`, or the package version):
-- OS and architecture:
+<!-- To report a malicious stone, do not open a public issue; see SECURITY.md. -->

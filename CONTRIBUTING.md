@@ -1,6 +1,6 @@
 # Contributing
 
-This repository is the rokstones package registry index. It is not a code
+This repository is the rokstones.io package registry index. It is not a code
 project: it holds one file per published stone.
 
 ## Publishing a stone
